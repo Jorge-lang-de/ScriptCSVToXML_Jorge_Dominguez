@@ -26,7 +26,7 @@ namespace ScriptCSVToXML
         static void Main(string[] args)
         {
             int opcion = 0;
-
+            // Bucle do-while que es para mantener el menú abierto hasta que elijamos salir
             do
             {
                 Console.Clear();
@@ -39,9 +39,10 @@ namespace ScriptCSVToXML
                 Console.WriteLine("4. Salir");
                 Console.WriteLine("=====================================");
                 Console.Write("Elige una opción: ");
-
+                // Validamos que el usuario introduzca un número correctamente
                 if (int.TryParse(Console.ReadLine(), out opcion))
                 {
+                    // Evaluamos la opción elegida en el menú
                     switch (opcion)
                     {
                         case 1:
@@ -65,7 +66,7 @@ namespace ScriptCSVToXML
                 {
                     Console.WriteLine("\nIntroduce un número válido.");
                 }
-
+                // Pausamos la ejecución para poder ver el resultado antes de limpiar la pantalla
                 if (opcion != 4)
                 {
                     Console.WriteLine("\nPulsa cualquier tecla para continuar...");
@@ -78,6 +79,7 @@ namespace ScriptCSVToXML
         // Exportamos todo el CSV a XML
         static void ExportarTodo()
         {
+            // Comprobamos que el archivo CSV exista antes de que lo intente leerlo
             if (!File.Exists(rutaCSV))
             {
                 Console.WriteLine("No se encuentra el archivo NetflixOriginals.csv");
@@ -99,7 +101,7 @@ namespace ScriptCSVToXML
 
             Console.Write("\nIntroduce el género que quieres buscar (ej. Documentary, Comedy): ");
             string generoBuscado = Console.ReadLine().Trim();
-
+            // filtamos la lista por si escribimos mayúsculas o minúsculas no nos de error y podamos escribirlo como queramos 
             var filtradas = peliculas.Where(p => p.Genre.Equals(generoBuscado, StringComparison.OrdinalIgnoreCase)).ToList();
 
             if (filtradas.Count > 0)
@@ -151,11 +153,13 @@ namespace ScriptCSVToXML
 
                 // Esto evita que las comas de dentro de los títulos rompan las columnas
                 string[] campos = System.Text.RegularExpressions.Regex.Split(linea, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-
+                // Comprobamos que la línea tenga al menos 6 campos para evitar errores de índice
                 if (campos.Length >= 6)
                 {
+                    // Creamos un nuevo objeto Pelicula y mapeamos cada columna del CSV
                     Pelicula p = new Pelicula
                     {
+                        // se limpian las comillas y los espacios de todos los campos para que no nos de error
                         Title = campos[0].Trim('"').Trim(),
                         Genre = campos[1].Trim('"').Trim(),
                         Premiere = campos[2].Trim('"').Trim(),
@@ -175,6 +179,7 @@ namespace ScriptCSVToXML
         {
             XDocument doc = new XDocument(
                 new XElement("Peliculas",
+                    // Usamos .Select para que recorra cada objeto Pelicula 
                     peliculas.Select(p => new XElement("Pelicula",
                         new XElement("Title", p.Title),
                         new XElement("Genre", p.Genre),
@@ -185,7 +190,7 @@ namespace ScriptCSVToXML
                     ))
                 )
             );
-
+            // Guardamos el documento XML
             doc.Save(nombreFichero);
         }
     }
