@@ -6,7 +6,7 @@ using System.Xml.Linq;
 
 namespace ScriptCSVToXML
 {
-    // Clase sencilla para guardar los datos de cada película
+    // Hacemos una clase para guardar los datos de cada película
     public class Pelicula
     {
         public string Title { get; set; }
@@ -19,7 +19,7 @@ namespace ScriptCSVToXML
 
     class Program
     {
-        // Rutas relativas simples
+        // Hecemos rutas relativas
         static string rutaCSV = "NetflixOriginals.csv";
         static string rutaXML = "PeliculasExportadas.xml";
 
@@ -75,7 +75,7 @@ namespace ScriptCSVToXML
             } while (opcion != 4);
         }
 
-        // 1. Exportar todo el CSV a XML
+        // Exportamos todo el CSV a XML
         static void ExportarTodo()
         {
             if (!File.Exists(rutaCSV))
@@ -90,7 +90,7 @@ namespace ScriptCSVToXML
             Console.WriteLine($"\n¡Listo! Se han exportado {peliculas.Count} películas a '{rutaXML}'.");
         }
 
-        // 2. Exportar filtrando por género
+        // Exportamos las peliculas filtrando por género
         static void ExportarPorGenero()
         {
             if (!File.Exists(rutaCSV)) return;
@@ -114,7 +114,7 @@ namespace ScriptCSVToXML
             }
         }
 
-        // 3. Exportar filtrando por año mínimo
+        // Exportamos las peliculas filtrando por año mínimo
         static void ExportarPorAnio()
         {
             if (!File.Exists(rutaCSV)) return;
@@ -137,7 +137,7 @@ namespace ScriptCSVToXML
             }
         }
 
-        // Método auxiliar para leer el CSV respetando las comas de los títulos
+        // utilizamos un método auxiliar para leer el CSV respetando las comas de los títulos
         static List<Pelicula> LeerCsv(string ruta)
         {
             List<Pelicula> lista = new List<Pelicula>();
@@ -170,7 +170,7 @@ namespace ScriptCSVToXML
             return lista;
         }
 
-        // Método auxiliar para crear el XML con la estructura pedida
+        // utilizamos un método auxiliar para crear el XML con la estructura pedida
         static void GenerarXml(List<Pelicula> peliculas, string nombreFichero)
         {
             XDocument doc = new XDocument(
